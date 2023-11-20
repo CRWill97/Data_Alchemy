@@ -22,7 +22,7 @@ with st.sidebar:
 
 
 # In[15]:
-
+client = OpenAI()
 
 if openai_api_key:
     
