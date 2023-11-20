@@ -7,7 +7,7 @@
 import streamlit as st
 import plotly.express as px
 import pandas as pd
-import openai
+from openai import OpenAI
 
 
 # In[14]:
@@ -55,13 +55,13 @@ if openai_api_key:
         user_question = st.text_input("Ask a question")
         if user_question:
             st.subheader("Answer:")
-            response = openai.Completion.create(
+            completion = client.completions.create(
                 model="text-davinci-003",
                 prompt=f"I want insights on the variable '{most_informative_variable}'. User's question: '{user_question}'",
                 max_tokens=100,
                 api_key=openai_api_key
             )
-            st.write(response.choices[0].text)
+            st.write(completion.choices[0].text)
 
 
 # In[ ]:
