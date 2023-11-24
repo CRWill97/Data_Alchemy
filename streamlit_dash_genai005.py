@@ -32,12 +32,12 @@ if openai_api_key:
     
     if uploaded_file is not None:
         data = pd.read_csv(uploaded_file)
-        st.write(data.head())
+        st.table(data.head())
 
         available_columns = data.columns
     
         st.write("Descriptive Statistics:")
-        st.write(data.describe())
+        st.table(data.describe())
 
         most_informative_variable = data.describe().loc['std'].idxmax()
     
