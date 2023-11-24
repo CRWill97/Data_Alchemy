@@ -22,7 +22,7 @@ with st.sidebar:
 
 
 # In[15]:
-client = OpenAI()
+
 
 if openai_api_key:
     
@@ -31,13 +31,13 @@ if openai_api_key:
     uploaded_file = st.file_uploader("Upload CSV file", type="csv")
     
     if uploaded_file is not None:
-        data = pd.read_csv(uploaded_file, sep=None)
-        st.table(data.head())
+        data = pd.read_csv(uploaded_file)
+        st.write(data.head())
 
         available_columns = data.columns
     
         st.write("Descriptive Statistics:")
-        st.table(data.describe())
+        st.write(data.describe())
 
         most_informative_variable = data.describe().loc['std'].idxmax()
     
@@ -55,13 +55,13 @@ if openai_api_key:
         user_question = st.text_input("Ask a question")
         if user_question:
             st.subheader("Answer:")
-            completion = client.completions.create(
+            response = openai.Completion.create(
                 model="text-davinci-003",
                 prompt=f"I want insights on the variable '{most_informative_variable}'. User's question: '{user_question}'",
                 max_tokens=100,
                 api_key=openai_api_key
             )
-            st.write(completion.choices[0].text)
+            st.write(response.choices[0].text)
 
 
 # In[ ]:
