@@ -3,3 +3,4 @@ plotly.express
 plotly
 pandas
 openai
+OpenAI
