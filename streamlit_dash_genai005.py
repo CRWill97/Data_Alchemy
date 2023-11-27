@@ -7,7 +7,7 @@
 import streamlit as st
 import plotly.express as px
 import pandas as pd
-import openai
+from openai import OpenAI
 
 
 # In[14]:
