@@ -24,20 +24,26 @@ with st.sidebar:
 # In[15]:
 
 
+#client = OpenAI()
+
 if openai_api_key:
     
-    openai.api_key = openai_api_key
+    client = OpenAI(
+        api_key = openai_api_key,
+    )
+    #OpenAI.api_key = openai_api_key
+    #OpenAI.api_key = openai_api_key
 
     uploaded_file = st.file_uploader("Upload CSV file", type="csv")
     
     if uploaded_file is not None:
         data = pd.read_csv(uploaded_file)
-        st.table(data.head())
+        st.write(data.head())
 
         available_columns = data.columns
     
         st.write("Descriptive Statistics:")
-        st.table(data.describe())
+        st.write(data.describe())
 
         most_informative_variable = data.describe().loc['std'].idxmax()
     
@@ -51,17 +57,24 @@ if openai_api_key:
     
 
     
-        st.subheader("Why this variable?:")
+        st.subheader("GPT Assistant:")
         user_question = st.text_input("Ask a question")
         if user_question:
             st.subheader("Answer:")
-            response = openai.Completion.create(
-                model="text-davinci-003",
-                prompt=f"I want insights on the variable '{most_informative_variable}'. User's question: '{user_question}'",
-                max_tokens=100,
-                api_key=openai_api_key
+            completion = client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages= [
+                    {"role": "user", "content": user_question}
+                    
+                            #"content":"I want insights on the variable '{most_informative_variable}'. User's question: '{user_question}'",
+                    
+                ]
+                
+                #model="gpt-3.5-turbo",
+                #max_tokens=100,
+                #api_key=openai_api_key
             )
-            st.write(response.choices[0].text)
+            st.write(completion.choices[0].message.content)
 
 
 # In[ ]:
