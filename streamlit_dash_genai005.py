@@ -47,7 +47,7 @@ if openai_api_key:
 
         most_informative_variable = data.describe().loc['std'].idxmax()
     
-        st.write(f"The variable '{most_informative_variable}' might offer significant insights.")
+        st.write(f"The variable '{most_informative_variable}' might offer significant insights, give it a try.")
 
         x_variable = st.selectbox("Select X variable", options=available_columns, index=0)
         y_variable = st.selectbox("Select Y variable", options=available_columns, index=1)
